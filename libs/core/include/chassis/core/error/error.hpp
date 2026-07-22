@@ -1,3 +1,5 @@
+#pragma once
+
 #include <expected>
 #include <source_location>
 #include <string_view>
@@ -27,12 +29,12 @@ public:
   Error(ErrorCode c,
         std::source_location loc = std::source_location::current());
 
-  ErrorCode code() const noexcept;
-  std::string_view message() const noexcept;
+  auto code() const noexcept -> ErrorCode;
+  auto message() const noexcept -> std::string_view;
 
-  std::source_location location() const noexcept;
+  auto location() const noexcept -> std::source_location;
 
-  std::string as_text() const noexcept;
+  auto as_text() const noexcept -> std::string;
 
 private:
   ErrorCode code_;
