@@ -32,7 +32,7 @@ public:
 
   std::source_location location() const noexcept;
 
-  std::string_view as_text() const noexcept;
+  std::string as_text() const noexcept;
 
 private:
   ErrorCode code_;
