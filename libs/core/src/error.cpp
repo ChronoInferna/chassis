@@ -12,26 +12,26 @@ ErrorCode Error::code() const noexcept { return code_; }
 std::string_view Error::message() const noexcept {
   // TODO eventually use reflection here?
   switch (code_) {
-  case ErrorCode::success:
-    return "success";
-  case ErrorCode::invalid_argument:
-    return "invalid_argument";
-  case ErrorCode::invalid_config:
-    return "invalid_config";
-  case ErrorCode::missing_file:
-    return "missing_file";
-  case ErrorCode::permission_denial:
-    return "permission_denial";
-  case ErrorCode::parse_error:
-    return "parse_error";
-  case ErrorCode::process_error:
-    return "process_error";
-  case ErrorCode::network_error:
-    return "network_error";
-  case ErrorCode::internal_error:
-    return "internal_error";
+  case ErrorCode::Success:
+    return "Success";
+  case ErrorCode::InvalidArgument:
+    return "InvalidArgument";
+  case ErrorCode::InvalidConfig:
+    return "InvalidConfig";
+  case ErrorCode::MissingFile:
+    return "MissingFile";
+  case ErrorCode::PermissionDenial:
+    return "PermissionDenial";
+  case ErrorCode::ParseError:
+    return "ParseError";
+  case ErrorCode::ProcessError:
+    return "ProcessError";
+  case ErrorCode::NetworkError:
+    return "NetworkError";
+  case ErrorCode::InternalError:
+    return "InternalError";
   default:
-    return "unknown error";
+    return "UnknownError";
   }
 }
 

@@ -5,21 +5,21 @@
 namespace chassis::error {
 
 enum class ErrorCode {
-  success = 0,
+  Success = 0,
 
-  invalid_argument,
-  invalid_config,
+  InvalidArgument,
+  InvalidConfig,
 
-  missing_file,
-  permission_denial,
+  MissingFile,
+  PermissionDenial,
 
-  parse_error,
+  ParseError,
 
-  process_error,
+  ProcessError,
 
-  network_error,
+  NetworkError,
 
-  internal_error,
+  InternalError,
 };
 
 class Error {
