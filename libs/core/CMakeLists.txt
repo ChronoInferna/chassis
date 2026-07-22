@@ -27,5 +27,5 @@ install(
 )
 
 if(CHASSIS_BUILD_TESTS)
-    # add_subdirectory(tests/chassis_core) # TODO
+    add_subdirectory(tests/chassis/core)
 endif()
