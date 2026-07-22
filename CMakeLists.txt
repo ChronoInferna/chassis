@@ -24,10 +24,7 @@ FetchContent_MakeAvailable(CLI11)
 # target_link_libraries(chassis PRIVATE CLI11::CLI11)
 
 add_subdirectory(libs/core)
-# add_subdirectory(libs/process)
-# add_subdirectory(libs/graph)
-# add_subdirectory(libs/manifest)
-# add_subdirectory(libs/workspace)
+add_subdirectory(libs/filesystem)
 
 # add_subdirectory(apps/chassis)
 
