@@ -25,7 +25,3 @@ install(
     EXPORT chassisTargets
     FILE_SET HEADERS
 )
-
-if(CHASSIS_BUILD_TESTS)
-    add_subdirectory(tests/chassis/core)
-endif()

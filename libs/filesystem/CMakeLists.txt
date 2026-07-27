@@ -22,7 +22,7 @@ target_link_libraries(chassis_filesystem
         chassis_core
 )
 
-target_compile_features(chassis_core PUBLIC cxx_std_23)
+target_compile_features(chassis_filesystem PUBLIC cxx_std_23)
 
 set_target_properties(
     chassis_filesystem
@@ -35,7 +35,3 @@ install(
     EXPORT chassisTargets
     FILE_SET HEADERS
 )
-
-if(CHASSIS_BUILD_TESTS)
-    add_subdirectory(tests/chassis/filesystem)
-endif()

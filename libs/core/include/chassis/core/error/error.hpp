@@ -12,6 +12,7 @@ enum class ErrorCode {
   InvalidArgument,
   InvalidConfig,
 
+  FileSystemError,
   MissingFile,
   PermissionDenial,
 
@@ -22,6 +23,8 @@ enum class ErrorCode {
   NetworkError,
 
   InternalError,
+
+  Other,
 };
 
 class Error {
@@ -42,5 +45,12 @@ private:
 };
 
 template <typename T> using Result = std::expected<T, Error>;
+
+template <typename T = void>
+auto make_error(ErrorCode c,
+                std::source_location loc = std::source_location::current())
+    -> std::unexpected<Error> {
+  return std::unexpected(Error{c, loc});
+}
 
 } // namespace chassis::error

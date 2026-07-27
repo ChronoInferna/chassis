@@ -8,9 +8,9 @@ namespace chassis::error {
 Error::Error(ErrorCode c, std::source_location loc)
     : code_(c), location_(loc) {};
 
-ErrorCode Error::code() const noexcept { return code_; }
+auto Error::code() const noexcept -> ErrorCode { return code_; }
 
-std::string_view Error::message() const noexcept {
+auto Error::message() const noexcept -> std::string_view {
   // TODO eventually use reflection here?
   switch (code_) {
   case ErrorCode::Success:
@@ -19,6 +19,8 @@ std::string_view Error::message() const noexcept {
     return "InvalidArgument";
   case ErrorCode::InvalidConfig:
     return "InvalidConfig";
+  case ErrorCode::FileSystemError:
+    return "FileSystemError";
   case ErrorCode::MissingFile:
     return "MissingFile";
   case ErrorCode::PermissionDenial:
@@ -31,14 +33,18 @@ std::string_view Error::message() const noexcept {
     return "NetworkError";
   case ErrorCode::InternalError:
     return "InternalError";
+  case ErrorCode::Other:
+    return "Other";
   default:
     return "UnknownError";
   }
 }
 
-std::source_location Error::location() const noexcept { return location_; }
+auto Error::location() const noexcept -> std::source_location {
+  return location_;
+}
 
-std::string Error::as_text() const noexcept {
+auto Error::as_text() const noexcept -> std::string {
   return std::format("{}:{}: {}", location_.file_name(), location().line(),
                      message());
 }
