@@ -12,6 +12,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(CHASSIS_BUILD_TESTS "Build tests" ON)
 
+# TODO Move to apps/chassis?
 include(FetchContent)
 
 FetchContent_Declare(
@@ -25,6 +26,12 @@ FetchContent_MakeAvailable(CLI11)
 
 add_subdirectory(libs/core)
 add_subdirectory(libs/filesystem)
+add_subdirectory(libs/manifest)
+
+if(CHASSIS_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests/chassis)
+endif()
 
 # add_subdirectory(apps/chassis)
 
