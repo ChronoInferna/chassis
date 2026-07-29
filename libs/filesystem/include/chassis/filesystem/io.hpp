@@ -9,11 +9,17 @@ namespace chassis::fs {
 
 using namespace chassis::error;
 
-auto read_text(const path &p) -> Result<std::string>;
-auto write_text(const path &p, std::string_view text) -> Result<void>;
+using FileLines = std::vector<std::string>;
+using FileLinesView = std::vector<std::string_view>;
 
+auto read_from_file(const path &p) -> Result<FileLines>;
+auto write_to_file(const path &p, FileLinesView text) -> Result<void>;
+auto overwrite_file(const path &p, FileLinesView text) -> Result<void>;
+
+// TODO
 auto read_binary(const path &p) -> Result<std::vector<std::byte>>;
 
-auto atomic_write(const path &p, std::string_view text) -> Result<void>;
+// TODO
+auto atomic_write(const path &p, FileLinesView text) -> Result<void>;
 
 } // namespace chassis::fs
