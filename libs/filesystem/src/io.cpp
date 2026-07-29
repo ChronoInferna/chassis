@@ -30,8 +30,11 @@ auto write_to_file(const path &p, FileLinesView text) -> Result<void> {
     return make_error(ErrorCode::InvalidArgument);
   }
 
-  // TODO
+  for (const auto &line : text) {
+    file << line << "\n";
+  }
 
+  file.close();
   return {};
 }
 
@@ -41,8 +44,11 @@ auto overwrite_file(const path &p, FileLinesView text) -> Result<void> {
     return make_error(ErrorCode::InvalidArgument);
   }
 
-  // TODO
+  for (const auto &line : text) {
+    file << line << "\n";
+  }
 
+  file.close();
   return {};
 }
 
