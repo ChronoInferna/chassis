@@ -5,18 +5,19 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
     GIT_TAG v2.6.2
 )
-
 FetchContent_MakeAvailable(CLI11)
-# target_link_libraries(chassis PRIVATE CLI11::CLI11)
 
-add_executable(chassis
-    src/main.cpp
+add_executable(chassis_cli)
+
+target_sources(chassis_cli
+    PRIVATE
+        src/main.cpp
 )
 
-target_link_libraries(chassis
+target_link_libraries(chassis_cli
     PRIVATE
-        # chassis::core
-        # chassis::filesystem
-        # chassis::manifest
+        chassis::core
+        chassis::filesystem
+        chassis::manifest
         CLI11::CLI11
 )
