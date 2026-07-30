@@ -14,7 +14,7 @@ target_sources(chassis_manifest
 
 target_link_libraries(chassis_manifest
     PUBLIC
-        chassis_core
+        chassis::core
 )
 
 target_compile_features(chassis_manifest PUBLIC cxx_std_23)

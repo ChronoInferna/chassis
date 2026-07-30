@@ -5,20 +5,20 @@
 
 namespace chassis::fs {
 
-TEST(PathTest, CurrentPath) {
+TEST(Path, CurrentPath) {
   auto res = chassis::fs::current_path();
   ASSERT_TRUE(res.has_value());
   EXPECT_FALSE(res.value().empty());
   EXPECT_EQ(res.value(), std::filesystem::current_path());
 }
 
-TEST(PathTest, Exists) {
+TEST(Path, Exists) {
   auto cwd = std::filesystem::current_path();
   EXPECT_TRUE(chassis::fs::exists(cwd));
   EXPECT_FALSE(chassis::fs::exists(cwd / "non_existent_file_abcdef_123456"));
 }
 
-TEST(PathTest, Canonical) {
+TEST(Path, Canonical) {
   auto cwd = std::filesystem::current_path();
   auto res = chassis::fs::canonical(cwd);
   ASSERT_TRUE(res.has_value());
@@ -30,7 +30,7 @@ TEST(PathTest, Canonical) {
   EXPECT_EQ(err_res.error().code(), ErrorCode::FileSystemError);
 }
 
-TEST(PathTest, CreateDirectoryAndRemove) {
+TEST(Path, CreateDirectoryAndRemove) {
   auto temp_dir =
       std::filesystem::temp_directory_path() / "chassis_test_dir_1234";
   if (chassis::fs::exists(temp_dir)) {
@@ -47,7 +47,7 @@ TEST(PathTest, CreateDirectoryAndRemove) {
   EXPECT_FALSE(chassis::fs::exists(temp_dir));
 }
 
-TEST(PathTest, FindUpward) {
+TEST(Path, FindUpward) {
   auto cwd = std::filesystem::current_path();
   auto folder_name = cwd.filename().string();
 

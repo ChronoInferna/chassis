@@ -4,7 +4,7 @@
 
 namespace chassis::error {
 
-TEST(ErrorTest, CodeAndMessage) {
+TEST(Error, CodeAndMessage) {
   EXPECT_EQ(Error(ErrorCode::Success).code(), ErrorCode::Success);
   EXPECT_EQ(Error(ErrorCode::Success).message(), "Success");
 
@@ -44,20 +44,20 @@ TEST(ErrorTest, CodeAndMessage) {
   EXPECT_EQ(Error(static_cast<ErrorCode>(999)).message(), "UnknownError");
 }
 
-TEST(ErrorTest, SourceLocation) {
+TEST(Error, SourceLocation) {
   auto err = Error(ErrorCode::InvalidArgument);
   EXPECT_NE(err.location().file_name(), nullptr);
   EXPECT_GT(err.location().line(), 0u);
 }
 
-TEST(ErrorTest, AsTextFormat) {
+TEST(Error, AsTextFormat) {
   auto err = Error(ErrorCode::ParseError);
   std::string formatted = err.as_text();
   EXPECT_NE(formatted.find("ParseError"), std::string::npos);
   EXPECT_NE(formatted.find(":"), std::string::npos);
 }
 
-TEST(ErrorTest, MakeErrorHelper) {
+TEST(Error, MakeErrorHelper) {
   auto unexp = make_error<int>(ErrorCode::MissingFile);
   EXPECT_EQ(unexp.error().code(), ErrorCode::MissingFile);
   EXPECT_EQ(unexp.error().message(), "MissingFile");

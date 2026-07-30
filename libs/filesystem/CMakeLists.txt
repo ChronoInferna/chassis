@@ -19,7 +19,7 @@ target_sources(chassis_filesystem
 
 target_link_libraries(chassis_filesystem
     PUBLIC
-        chassis_core
+        chassis::core
 )
 
 target_compile_features(chassis_filesystem PUBLIC cxx_std_23)

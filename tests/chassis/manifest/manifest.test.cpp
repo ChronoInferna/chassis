@@ -4,7 +4,7 @@
 
 namespace chassis::manifest {
 
-TEST(ManifestTest, DefaultConstruction) {
+TEST(Manifest, DefaultConstruction) {
   Manifest m;
   (void)m;
 }

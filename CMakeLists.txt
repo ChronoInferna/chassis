@@ -12,28 +12,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(CHASSIS_BUILD_TESTS "Build tests" ON)
 
-# TODO Move to apps/chassis?
-include(FetchContent)
-
-FetchContent_Declare(
-    CLI11
-    GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
-    GIT_TAG v2.6.2
-)
-
-FetchContent_MakeAvailable(CLI11)
-# target_link_libraries(chassis PRIVATE CLI11::CLI11)
-
-add_subdirectory(libs/core)
-add_subdirectory(libs/filesystem)
-add_subdirectory(libs/manifest)
+add_subdirectory(libs)
 
 if(CHASSIS_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests/chassis)
 endif()
 
-# add_subdirectory(apps/chassis)
+# add_subdirectory(apps)
 
 # install(
 #     EXPORT chassisTargets
