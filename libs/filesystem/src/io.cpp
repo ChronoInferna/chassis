@@ -8,55 +8,58 @@
 namespace chassis::fs {
 
 using namespace chassis::error;
+using namespace chassis::file;
 
-auto read_from_file(const path &p) -> Result<FileLines> {
+auto read_file(const path &p) -> Result<File> {
   std::ifstream file{p};
   if (!file.is_open()) {
     return make_error(ErrorCode::InvalidArgument);
   }
 
-  FileLines res{};
+  File res{};
   std::string buffer;
   while (std::getline(file, buffer)) {
-    res.emplace_back(buffer);
+    // TODO
   }
 
   return res;
 }
 
-auto write_to_file(const path &p, FileLinesView text) -> Result<void> {
+auto append_file(const path &p, File input_input) -> Result<void> {
   std::ofstream file{p, std::ios::app};
   if (!file.is_open()) {
     return make_error(ErrorCode::InvalidArgument);
   }
 
-  for (const auto &line : text) {
-    file << line << "\n";
-  }
+  // TODO
+  // for (const auto &line : text) {
+  //   file << line << "\n";
+  // }
 
   file.close();
   return {};
 }
 
-auto overwrite_file(const path &p, FileLinesView text) -> Result<void> {
+auto overwrite_file(const path &p, File input_file) -> Result<void> {
   std::ofstream file{p};
   if (!file.is_open()) {
     return make_error(ErrorCode::InvalidArgument);
   }
 
-  for (const auto &line : text) {
-    file << line << "\n";
-  }
+  // TODO
+  // for (const auto &line : input_file) {
+  //   file << line << "\n";
+  // }
 
   file.close();
   return {};
 }
 
 // TODO
-// auto read_binary(const path &p) -> Result<std::vector<std::byte>> {}
+// auto read_binary_file(const path &p) -> Result<File> {}
 
 // TODO
-// auto atomic_write(const path &p, FileLinesView text) ->
+// auto atomic_write_file(const path &p, File input_file) ->
 // Result<void> {}
 
 } // namespace chassis::fs

@@ -3,7 +3,8 @@ add_library(chassis::core ALIAS chassis_core)
 
 target_sources(chassis_core
     PRIVATE
-        src/error.cpp
+        src/error/error.cpp
+        src/file/file.cpp
 
     PUBLIC
         FILE_SET HEADERS
