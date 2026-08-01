@@ -14,12 +14,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(CHASSIS_BUILD_TESTS "Build tests" ON)
 
 add_subdirectory(libs)
-
 add_subdirectory(apps)
 
 if(CHASSIS_BUILD_TESTS)
-    enable_testing()
     add_subdirectory(tests/chassis)
+    enable_testing()
 endif()
 
 include(GNUInstallDirs)

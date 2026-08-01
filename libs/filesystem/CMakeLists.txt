@@ -3,7 +3,7 @@ add_library(chassis::filesystem ALIAS chassis_filesystem)
 
 target_sources(chassis_filesystem
     PRIVATE
-        src/io.cpp
+        src/text_file.cpp
         src/path.cpp
         src/temp.cpp
 
@@ -12,7 +12,7 @@ target_sources(chassis_filesystem
         BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
         FILES
             include/chassis/filesystem/filesystem.hpp
-            include/chassis/filesystem/io.hpp
+            include/chassis/filesystem/text_file.hpp
             include/chassis/filesystem/path.hpp
             include/chassis/filesystem/temp.hpp
 )
