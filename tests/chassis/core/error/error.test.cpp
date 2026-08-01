@@ -41,7 +41,10 @@ TEST(Error, CodeAndMessage) {
   EXPECT_EQ(Error(ErrorCode::Other).code(), ErrorCode::Other);
   EXPECT_EQ(Error(ErrorCode::Other).message(), "Other");
 
-  EXPECT_EQ(Error(static_cast<ErrorCode>(999)).message(), "UnknownError");
+  EXPECT_EQ(Error(ErrorCode::Unknown).code(), ErrorCode::Unknown);
+  EXPECT_EQ(Error(ErrorCode::Unknown).message(), "Unknown");
+
+  EXPECT_EQ(Error(static_cast<ErrorCode>(999)).message(), "Unknown");
 }
 
 TEST(Error, SourceLocation) {

@@ -35,8 +35,10 @@ auto Error::message() const noexcept -> std::string_view {
     return "InternalError";
   case ErrorCode::Other:
     return "Other";
+  case ErrorCode::Unknown:
+    return "Unknown";
   default:
-    return "UnknownError";
+    return "Unknown";
   }
 }
 

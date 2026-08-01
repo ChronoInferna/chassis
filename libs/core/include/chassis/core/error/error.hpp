@@ -26,6 +26,7 @@ enum class ErrorCode {
   InternalError,
 
   Other,
+  Unknown,
 };
 
 class Error {
