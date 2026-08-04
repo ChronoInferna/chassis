@@ -8,6 +8,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(CLI11)
 
 add_executable(chassis_cli)
+set_target_properties(chassis_cli
+    PROPERTIES
+        OUTPUT_NAME "chassis"
+)
 
 target_sources(chassis_cli
     PRIVATE
