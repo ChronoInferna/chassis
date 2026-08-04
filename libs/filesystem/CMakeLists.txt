@@ -1,11 +1,11 @@
-add_library(chassis_filesystem)
+add_library(chassis_filesystem STATIC)
 add_library(chassis::filesystem ALIAS chassis_filesystem)
 
 target_sources(chassis_filesystem
     PRIVATE
-        src/text_file.cpp
-        src/path.cpp
-        src/temp.cpp
+        src/chassis/filesystem/text_file.cpp
+        src/chassis/filesystem/path.cpp
+        src/chassis/filesystem/temp.cpp
 
     PUBLIC
         FILE_SET HEADERS

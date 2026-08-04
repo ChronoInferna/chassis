@@ -1,7 +1,6 @@
 #pragma once
 
 #include <beman/expected/expected.hpp>
-// #include <expected>
 #include <source_location>
 #include <string_view>
 
@@ -48,6 +47,7 @@ private:
 
 // We use beman::expected for expected over reference support in C++23
 namespace expected = beman::expected;
+// #include <expected>
 // namespace expected = std;
 // TODO this could be an ifdef situation but that's a later problem
 
@@ -63,5 +63,7 @@ auto make_error(ErrorCode c,
     -> Unexpected<Error> {
   return Unexpected(Error{c, loc});
 }
+
+// TODO TRY macro that fails automatically?
 
 } // namespace chassis::error

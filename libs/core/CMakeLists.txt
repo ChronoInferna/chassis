@@ -1,19 +1,9 @@
-# beman.expected for expected over reference support
-include(FetchContent)
-
-FetchContent_Declare(
-    beman.expected
-    GIT_REPOSITORY https://github.com/bemanproject/expected.git
-    GIT_TAG main
-)
-FetchContent_MakeAvailable(beman.expected)
-
-add_library(chassis_core)
+add_library(chassis_core STATIC)
 add_library(chassis::core ALIAS chassis_core)
 
 target_sources(chassis_core
     PRIVATE
-        src/error/error.cpp
+        src/chassis/core/error/error.cpp
 
     PUBLIC
         FILE_SET HEADERS

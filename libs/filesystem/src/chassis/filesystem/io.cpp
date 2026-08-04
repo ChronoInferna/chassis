@@ -57,7 +57,6 @@ auto write_text_file(const path &path, const TextFile &file, FileWriteMode mode)
 
   return {};
 }
-}
 
 // TODO
 // auto exists(const path &path) -> bool;

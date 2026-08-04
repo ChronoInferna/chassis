@@ -7,21 +7,21 @@
 namespace chassis::fs {
 
 using namespace chassis::error;
-using path = std::filesystem::path;
+using Path = std::filesystem::path;
 
 [[nodiscard]]
-auto current_path() -> Result<path>;
+auto current_path() -> Result<Path>;
 
 [[nodiscard]]
-auto exists(const path &p) -> bool;
+auto exists(const Path &p) -> bool;
 
 [[nodiscard]]
-auto canonical(const path &p) -> Result<path>;
+auto canonical(const Path &p) -> Result<Path>;
 
-auto create_directory(const path &p) -> Result<void>;
-auto remove(const path &p) -> Result<void>;
+auto create_directory(const Path &p) -> Result<void>;
+auto remove(const Path &p) -> Result<void>;
 
 [[nodiscard]]
-auto find_upward(const path &p, std::string_view search_term) -> Result<path>;
+auto find_upward(const Path &p, std::string_view search_term) -> Result<Path>;
 
 } // namespace chassis::fs

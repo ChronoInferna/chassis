@@ -8,18 +8,18 @@ namespace chassis::fs {
 enum class FileWriteMode { Overwrite, Append };
 
 [[nodiscard]]
-auto read_text_file(const path &path) -> Result<TextFile>;
+auto read_text_file(const Path &Path) -> Result<TextFile>;
 
-auto write_text_file(const path &path, const TextFile &file,
+auto write_text_file(const Path &Path, const TextFile &file,
                      FileWriteMode mode = FileWriteMode::Overwrite)
     -> Result<void>;
 
-auto exists(const path &path) -> bool;
+auto exists(const Path &Path) -> bool;
 
-auto copy_file(const path &from, const path &to) -> Result<void>;
+auto copy_file(const Path &from, const Path &to) -> Result<void>;
 
-auto remove_file(const path &path) -> Result<void>;
+auto remove_file(const Path &Path) -> Result<void>;
 
-auto create_file(const path &path) -> Result<void>;
+auto create_file(const Path &Path) -> Result<void>;
 
 } // namespace chassis::fs
