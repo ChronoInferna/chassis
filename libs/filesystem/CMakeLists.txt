@@ -6,6 +6,7 @@ target_sources(chassis_filesystem
         src/chassis/filesystem/text_file.cpp
         src/chassis/filesystem/path.cpp
         src/chassis/filesystem/temp.cpp
+        src/chassis/filesystem/io.cpp
 
     PUBLIC
         FILE_SET HEADERS
@@ -15,6 +16,7 @@ target_sources(chassis_filesystem
             include/chassis/filesystem/text_file.hpp
             include/chassis/filesystem/path.hpp
             include/chassis/filesystem/temp.hpp
+            include/chassis/filesystem/io.hpp
 )
 
 target_link_libraries(chassis_filesystem

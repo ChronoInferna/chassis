@@ -10,8 +10,8 @@ namespace chassis::fs {
 
 using namespace chassis::error;
 
-auto current_path() -> Result<path> {
-  path res{};
+auto current_path() -> Result<Path> {
+  Path res{};
 
   try {
     res = std::filesystem::current_path();
@@ -22,10 +22,10 @@ auto current_path() -> Result<path> {
   return res;
 }
 
-auto exists(const path &p) -> bool { return std::filesystem::exists(p); }
+auto exists(const Path &p) -> bool { return std::filesystem::exists(p); }
 
-auto canonical(const path &p) -> Result<path> {
-  path res{};
+auto canonical(const Path &p) -> Result<Path> {
+  Path res{};
 
   try {
     res = std::filesystem::canonical(p);
@@ -36,7 +36,7 @@ auto canonical(const path &p) -> Result<path> {
   return res;
 }
 
-auto create_directory(const path &p) -> Result<void> {
+auto create_directory(const Path &p) -> Result<void> {
   try {
     std::filesystem::create_directory(p);
   } catch (const std::exception &) {
@@ -46,7 +46,7 @@ auto create_directory(const path &p) -> Result<void> {
   return {};
 }
 
-auto remove(const path &p) -> Result<void> {
+auto remove(const Path &p) -> Result<void> {
   try {
     std::filesystem::remove(p);
   } catch (const std::exception &) {
@@ -56,8 +56,8 @@ auto remove(const path &p) -> Result<void> {
   return {};
 }
 
-auto find_upward(const path &p, std::string_view search_term) -> Result<path> {
-  path res = p.empty() ? std::filesystem::current_path() : p;
+auto find_upward(const Path &p, std::string_view search_term) -> Result<Path> {
+  Path res = p.empty() ? std::filesystem::current_path() : p;
 
   try {
     while (res.filename() != search_term) {

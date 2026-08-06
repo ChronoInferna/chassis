@@ -6,7 +6,7 @@
 
 namespace chassis::fs {
 
-auto read_text_file(const path &path) -> Result<TextFile> {
+auto read_text_file(const Path &path) -> Result<TextFile> {
   std::ifstream file{path};
 
   if (!file.is_open()) {
@@ -27,7 +27,7 @@ auto read_text_file(const path &path) -> Result<TextFile> {
   return TextFile{std::move(lines)};
 }
 
-auto write_text_file(const path &path, const TextFile &file, FileWriteMode mode)
+auto write_text_file(const Path &path, const TextFile &file, FileWriteMode mode)
     -> Result<void> {
   std::ios_base::openmode open_mode = std::ios::out;
 
