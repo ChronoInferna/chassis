@@ -62,16 +62,17 @@ auto make_error(ErrorCode c,
   return Unexpected(Error{c, loc});
 }
 
-template <typename T = void>
-auto propagate_error(Result<T> e) -> Unexpected<Error> {
-  if (e) {
-    return Unexpected<Error>(
-        Error{ErrorCode::InternalError, std::source_location::current()});
-  }
+#define CHASSIS_DETAIL_CONCAT_IMPL(a, b) a##b
+#define CHASSIS_DETAIL_CONCAT(a, b) CHASSIS_DETAIL_CONCAT_IMPL(a, b)
 
-  return Unexpected(Error{e.error().code(), e.error().location()});
-}
+#define CHASSIS_TRY_IMPL(name, expr, counter)                                  \
+  auto CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter) = (expr);          \
+  if (!CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter))                   \
+    return Unexpected(                                                         \
+        CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter).error());         \
+  auto name =                                                                  \
+      std::move(CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter)).value()
 
-// TODO TRY macro that fails automatically?
+#define CHASSIS_TRY(name, expr) CHASSIS_TRY_IMPL(name, expr, __COUNTER__)
 
 } // namespace chassis::error

@@ -90,27 +90,20 @@ auto write_manifest(const fs::Path &path, const Manifest &manifest)
 }
 
 auto read_manifest(const fs::Path &path) -> Result<Manifest> {
-  auto res = fs::read_text_file(path / "Chassis.toml");
-  if (!res) {
-    return propagate_error(res);
-  }
+  CHASSIS_TRY(text_file, fs::read_text_file(path / "Chassis.toml"));
 
-  auto text_file = res.value();
   std::ostringstream oss{};
   for (const auto &line : text_file.lines()) {
     oss << line << "\n";
   }
   toml::table table = toml::parse(oss.str());
 
-  auto valid_manifest = validate(path);
-  if (!valid_manifest) {
-    return make_error(ErrorCode::InvalidManifest,
-                      std::source_location::current());
-  }
+  // TODO void version of try?
+  CHASSIS_TRY(test, manifest::validate(path));
 
   return toml_to_manifest(table);
 }
 
-auto validate(const fs::Path &path) -> bool { return true; }
+auto validate(const fs::Path &path) -> Result<void> { return {}; }
 
 } // namespace chassis::manifest

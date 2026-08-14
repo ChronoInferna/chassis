@@ -30,6 +30,6 @@ auto read_manifest(const fs::Path &path) -> Result<Manifest>;
 auto update_manifest(const fs::Path &path, const Manifest &manifest)
     -> Result<void>;
 
-auto validate(const fs::Path &path) -> bool;
+auto validate(const fs::Path &path) -> Result<void>;
 
 } // namespace chassis::manifest
