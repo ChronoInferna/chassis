@@ -4,6 +4,7 @@
 #include <chassis/filesystem/filesystem.hpp>
 
 #include <string>
+#include <vector>
 
 namespace chassis::manifest {
 
@@ -16,12 +17,15 @@ struct Package {
 
 struct Manifest {
   Package package;
+  std::vector<Package> dependencies;
 };
 
 auto create(std::string_view package_name) -> Manifest;
 
 auto write_manifest(const fs::Path &path, const Manifest &manifest)
     -> Result<void>;
+
+auto read_manifest(const fs::Path &path) -> Result<Manifest>;
 
 auto update_manifest(const fs::Path &path, const Manifest &manifest)
     -> Result<void>;

@@ -1,5 +1,6 @@
 #include <chassis/manifest/manifest.hpp>
 
+#include <chassis/core/error/error.hpp>
 #include <chassis/filesystem/io.hpp>
 #include <chassis/filesystem/text_file.hpp>
 
@@ -28,6 +29,33 @@ auto toml_to_text_file(const toml::table &table) -> fs::TextFile {
   return fs::TextFile{std::move(lines)};
 }
 
+auto toml_to_manifest(const toml::table &table) -> Manifest {
+  Manifest manifest{};
+
+  if (table.contains("package")) {
+    const auto &package_table = table["package"].as_table();
+    manifest.package.name =
+        package_table->get_as<std::string>("name")->value_or("");
+    manifest.package.version =
+        package_table->get_as<std::string>("version")->value_or("0.1.0");
+  }
+
+  if (table.contains("dependencies")) {
+    const auto &dependencies_table = table["dependencies"].as_table();
+    for (const auto &[dep_name, dep_value] : *dependencies_table) {
+      if (dep_value.is_table()) {
+        const auto &dep_table = dep_value.as_table();
+        std::string version =
+            dep_table->get_as<std::string>("version")->value_or("0.1.0");
+        manifest.dependencies.push_back(
+            Package{std::string{dep_name.str()}, version});
+      }
+    }
+  }
+
+  return manifest;
+}
+
 } // namespace
 
 auto create(std::string_view package_name) -> Manifest {
@@ -49,6 +77,11 @@ auto write_manifest(const fs::Path &path, const Manifest &manifest)
                                {"version", manifest.package.version},
                            });
 
+  for (const auto &dep : manifest.dependencies) {
+    table["dependencies"].as_table()->insert(
+        dep.name, toml::table{{"version", dep.version}});
+  }
+
   fs::TextFile file = toml_to_text_file(table);
   auto res = fs::write_text_file(path / "Chassis.toml", file,
                                  fs::FileWriteMode::Overwrite);
@@ -56,6 +89,28 @@ auto write_manifest(const fs::Path &path, const Manifest &manifest)
   return res;
 }
 
-// auto validate(const fs::Path &path) -> bool {}
+auto read_manifest(const fs::Path &path) -> Result<Manifest> {
+  auto res = fs::read_text_file(path / "Chassis.toml");
+  if (!res) {
+    return propagate_error(res);
+  }
+
+  auto text_file = res.value();
+  std::ostringstream oss{};
+  for (const auto &line : text_file.lines()) {
+    oss << line << "\n";
+  }
+  toml::table table = toml::parse(oss.str());
+
+  auto valid_manifest = validate(path);
+  if (!valid_manifest) {
+    return make_error(ErrorCode::InvalidManifest,
+                      std::source_location::current());
+  }
+
+  return toml_to_manifest(table);
+}
+
+auto validate(const fs::Path &path) -> bool { return true; }
 
 } // namespace chassis::manifest

@@ -10,7 +10,7 @@ enum class ErrorCode {
   Success = 0,
 
   InvalidArgument,
-  InvalidConfig,
+  InvalidManifest,
 
   FileSystemError,
   MissingFile,
@@ -55,13 +55,21 @@ template <typename T> using Result = expected::expected<T, Error>;
 
 template <typename E> using Unexpected = expected::unexpected<E>;
 
-template <typename T> using Result = expected::expected<T, Error>;
-
 template <typename T = void>
 auto make_error(ErrorCode c,
                 std::source_location loc = std::source_location::current())
     -> Unexpected<Error> {
   return Unexpected(Error{c, loc});
+}
+
+template <typename T = void>
+auto propagate_error(Result<T> e) -> Unexpected<Error> {
+  if (e) {
+    return Unexpected<Error>(
+        Error{ErrorCode::InternalError, std::source_location::current()});
+  }
+
+  return Unexpected(Error{e.error().code(), e.error().location()});
 }
 
 // TODO TRY macro that fails automatically?

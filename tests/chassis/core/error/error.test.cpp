@@ -12,8 +12,9 @@ TEST(Error, CodeAndMessage) {
             ErrorCode::InvalidArgument);
   EXPECT_EQ(Error(ErrorCode::InvalidArgument).message(), "InvalidArgument");
 
-  EXPECT_EQ(Error(ErrorCode::InvalidConfig).code(), ErrorCode::InvalidConfig);
-  EXPECT_EQ(Error(ErrorCode::InvalidConfig).message(), "InvalidConfig");
+  EXPECT_EQ(Error(ErrorCode::InvalidManifest).code(),
+            ErrorCode::InvalidManifest);
+  EXPECT_EQ(Error(ErrorCode::InvalidManifest).message(), "InvalidManifest");
 
   EXPECT_EQ(Error(ErrorCode::FileSystemError).code(),
             ErrorCode::FileSystemError);

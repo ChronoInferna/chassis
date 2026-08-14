@@ -16,6 +16,7 @@ auto add_init_command(CLI::App &app) -> void {
 
 auto run_init_command(const InitOptions &options) -> void {
   auto manifest_path = options.path / "Chassis.toml";
+  auto parent_folder = options.path.filename().native();
 
   if (chassis::fs::exists(manifest_path)) {
     spdlog::error("Manifest file already exists at: {}",
@@ -23,8 +24,7 @@ auto run_init_command(const InitOptions &options) -> void {
     return;
   }
 
-  auto parent_folder_name = options.path.filename().native();
-  auto manifest = chassis::manifest::create(parent_folder_name);
+  auto manifest = chassis::manifest::create(parent_folder);
   spdlog::debug("Creating manifest at: {}", (manifest_path).string());
 
   auto res = chassis::manifest::write_manifest(options.path, manifest);

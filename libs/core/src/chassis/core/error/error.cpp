@@ -17,8 +17,8 @@ auto Error::message() const noexcept -> std::string_view {
     return "Success";
   case ErrorCode::InvalidArgument:
     return "InvalidArgument";
-  case ErrorCode::InvalidConfig:
-    return "InvalidConfig";
+  case ErrorCode::InvalidManifest:
+    return "InvalidManifest";
   case ErrorCode::FileSystemError:
     return "FileSystemError";
   case ErrorCode::MissingFile:
