@@ -55,12 +55,9 @@ template <typename T> using Result = expected::expected<T, Error>;
 
 template <typename E> using Unexpected = expected::unexpected<E>;
 
-template <typename T = void>
 auto make_error(ErrorCode c,
                 std::source_location loc = std::source_location::current())
-    -> Unexpected<Error> {
-  return Unexpected(Error{c, loc});
-}
+    -> Unexpected<Error>;
 
 #define CHASSIS_DETAIL_CONCAT_IMPL(a, b) a##b
 #define CHASSIS_DETAIL_CONCAT(a, b) CHASSIS_DETAIL_CONCAT_IMPL(a, b)
