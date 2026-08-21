@@ -8,6 +8,7 @@ function(add_gtest LIB_NAME TEST_NAME)
         ${TARGET_NAME}
         PRIVATE
             chassis::${LIB_NAME}
+            beman::expected
             GTest::gtest_main
     )
     gtest_discover_tests(${TARGET_NAME})

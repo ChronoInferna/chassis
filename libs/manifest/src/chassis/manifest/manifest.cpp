@@ -32,12 +32,12 @@ auto toml_to_text_file(const toml::table &table) -> fs::TextFile {
 auto toml_to_manifest(const toml::table &table) -> Manifest {
   Manifest manifest{};
 
-  if (table.contains("package")) {
-    const auto &package_table = table["package"].as_table();
+  if (table.contains("project")) {
+    const auto &project_table = table["project"].as_table();
     manifest.package.name =
-        package_table->get_as<std::string>("name")->value_or("");
+        project_table->get_as<std::string>("name")->value_or("");
     manifest.package.version =
-        package_table->get_as<std::string>("version")->value_or("0.1.0");
+        project_table->get_as<std::string>("version")->value_or("0.1.0");
   }
 
   if (table.contains("dependencies")) {
@@ -72,7 +72,7 @@ auto write_manifest(const fs::Path &path, const Manifest &manifest)
     -> Result<void> {
   toml::table table{};
 
-  table.emplace("package", toml::table{
+  table.emplace("project", toml::table{
                                {"name", manifest.package.name},
                                {"version", manifest.package.version},
                            });
@@ -90,7 +90,7 @@ auto write_manifest(const fs::Path &path, const Manifest &manifest)
 }
 
 auto read_manifest(const fs::Path &path) -> Result<Manifest> {
-  CHASSIS_TRY(text_file, fs::read_text_file(path / "Chassis.toml"));
+  CHASSIS_TRY_VALUE(text_file, fs::read_text_file(path / "Chassis.toml"));
 
   std::ostringstream oss{};
   for (const auto &line : text_file.lines()) {
@@ -98,8 +98,7 @@ auto read_manifest(const fs::Path &path) -> Result<Manifest> {
   }
   toml::table table = toml::parse(oss.str());
 
-  // TODO void version of try?
-  CHASSIS_TRY(test, manifest::validate(path));
+  CHASSIS_TRY(manifest::validate(path));
 
   return toml_to_manifest(table);
 }

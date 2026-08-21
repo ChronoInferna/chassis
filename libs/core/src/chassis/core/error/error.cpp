@@ -51,8 +51,4 @@ auto Error::as_text() const noexcept -> std::string {
                      message());
 }
 
-auto make_error(ErrorCode c, std::source_location loc) -> Unexpected<Error> {
-  return Unexpected(Error{c, loc});
-}
-
 } // namespace chassis::error
