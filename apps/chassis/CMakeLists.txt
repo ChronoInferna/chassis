@@ -23,6 +23,8 @@ target_sources(chassis_cli
     PRIVATE
         src/main.cpp
         src/commands/init.cpp
+        src/commands/new.cpp
+        src/commands/build.cpp
 )
 
 target_link_libraries(chassis_cli
@@ -30,6 +32,7 @@ target_link_libraries(chassis_cli
         chassis::core
         chassis::filesystem
         chassis::manifest
+        chassis::process
         CLI11::CLI11
         spdlog::spdlog
 )

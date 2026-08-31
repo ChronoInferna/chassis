@@ -1,6 +1,6 @@
 #include <CLI/CLI.hpp>
 
-#include "commands/init.hpp"
+#include "commands/commands.hpp"
 #include "spdlog/spdlog.h"
 
 int main(int argc, char **argv) {
@@ -10,6 +10,8 @@ int main(int argc, char **argv) {
   spdlog::set_pattern("[%^%l%$] %v");
 
   add_init_command(app);
+  // add_new_command(app); TODO
+  add_build_command(app);
 
   CLI11_PARSE(app, argc, argv);
   return 0;
