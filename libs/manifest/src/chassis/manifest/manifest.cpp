@@ -70,6 +70,9 @@ auto create(std::string_view package_name) -> Manifest {
 
 auto write_manifest(const fs::Path &path, const Manifest &manifest)
     -> Result<void> {
+  // TODO validate path as manifest path (i.e. check if it ends with
+  // Chassis.toml), if so do it via typing system
+
   toml::table table{};
 
   table.emplace("project", toml::table{
@@ -83,26 +86,22 @@ auto write_manifest(const fs::Path &path, const Manifest &manifest)
   }
 
   fs::TextFile file = toml_to_text_file(table);
-  auto res = fs::write_text_file(path / "Chassis.toml", file,
-                                 fs::FileWriteMode::Overwrite);
+  CHASSIS_TRY(fs::write_text_file(path, file, fs::FileWriteMode::Overwrite));
 
-  return res;
+  return {};
 }
 
 auto read_manifest(const fs::Path &path) -> Result<Manifest> {
-  CHASSIS_TRY_VALUE(text_file, fs::read_text_file(path / "Chassis.toml"));
+  CHASSIS_TRY_VALUE(text_file, fs::read_text_file(path));
 
-  std::ostringstream oss{};
-  for (const auto &line : text_file.lines()) {
-    oss << line << "\n";
-  }
-  toml::table table = toml::parse(oss.str());
+  toml::table table = toml::parse(text_file.text());
 
   CHASSIS_TRY(manifest::validate(path));
 
   return toml_to_manifest(table);
 }
 
+// TODO
 auto validate(const fs::Path &path) -> Result<void> { return {}; }
 
 } // namespace chassis::manifest
