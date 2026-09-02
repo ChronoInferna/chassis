@@ -57,23 +57,25 @@ auto remove(const Path &p) -> Result<void> {
 }
 
 auto find_upward(const Path &p, std::string_view search_term) -> Result<Path> {
-  Path res = p.empty() ? std::filesystem::current_path() : p;
+  Path dir = p.empty() ? std::filesystem::current_path() : p;
 
   try {
-    while (res.filename() != search_term) {
-      if (!res.has_parent_path() || res.parent_path() == res) {
+    while (true) {
+      if (dir.filename() == search_term && std::filesystem::exists(dir)) {
+        return dir;
+      }
+      Path candidate = dir / search_term;
+      if (std::filesystem::exists(candidate)) {
+        return candidate;
+      }
+      if (!dir.has_parent_path() || dir.parent_path() == dir) {
         return make_error(ErrorCode::MissingFile);
       }
-
-      res = res.parent_path();
+      dir = dir.parent_path();
     }
-
-    return res;
   } catch (const std::exception &) {
-    return make_error(ErrorCode::ProcessError);
+    return make_error(ErrorCode::FileSystemError);
   }
-
-  return res;
 }
 
 } // namespace chassis::fs

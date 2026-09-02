@@ -4,12 +4,16 @@ add_library(chassis::manifest ALIAS chassis_manifest)
 target_sources(chassis_manifest
     PRIVATE
         src/chassis/manifest/manifest.cpp
+        src/chassis/manifest/toml_manifest_store.cpp
 
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
         FILES
             include/chassis/manifest/manifest.hpp
+            include/chassis/manifest/project.hpp
+            include/chassis/manifest/manifest_store.hpp
+            include/chassis/manifest/toml_manifest_store.hpp
 )
 
 target_link_libraries(chassis_manifest
@@ -17,7 +21,7 @@ target_link_libraries(chassis_manifest
         chassis::core
         chassis::filesystem
     PRIVATE
-        $<BUILD_INTERFACE:tomlplusplus::tomlplusplus> # TODO used here because of FetchContent problems - hopefully can be resolved as I figure out best practices
+        $<BUILD_INTERFACE:tomlplusplus::tomlplusplus>
 )
 
 target_compile_features(chassis_manifest PUBLIC cxx_std_23)

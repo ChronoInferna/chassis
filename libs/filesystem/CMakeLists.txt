@@ -7,12 +7,14 @@ target_sources(chassis_filesystem
         src/chassis/filesystem/path.cpp
         src/chassis/filesystem/temp.cpp
         src/chassis/filesystem/io.cpp
+        src/chassis/filesystem/std_filesystem.cpp
 
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
         FILES
             include/chassis/filesystem/filesystem.hpp
+            include/chassis/filesystem/std_filesystem.hpp
             include/chassis/filesystem/text_file.hpp
             include/chassis/filesystem/path.hpp
             include/chassis/filesystem/temp.hpp

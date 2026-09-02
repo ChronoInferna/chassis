@@ -4,12 +4,15 @@ add_library(chassis::process ALIAS chassis_process)
 target_sources(chassis_process
     PRIVATE
         src/chassis/process/process.cpp
+        src/chassis/process/native_process_runner.cpp
 
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include"
         FILES
             include/chassis/process/process.hpp
+            include/chassis/process/process_runner.hpp
+            include/chassis/process/native_process_runner.hpp
 )
 
 target_link_libraries(chassis_process
