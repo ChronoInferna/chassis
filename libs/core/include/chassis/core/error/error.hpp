@@ -67,12 +67,9 @@ auto make_error(ErrorCode c,
 
 #define CHASSIS_TRY_IMPL(name, expr, counter)                                  \
   auto CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter) = (expr);          \
-  do {                                                                         \
-    auto _result = (expr);                                                     \
-    if (!_result)                                                              \
-      return Unexpected(                                                       \
-          CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter).error());       \
-  } while (false)
+  if (!CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter))                    \
+    return chassis::error::Unexpected(                                          \
+        CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter).error())
 
 #define CHASSIS_TRY(expr)                                                      \
   CHASSIS_TRY_IMPL(_chassis_try_result_, expr, __COUNTER__)
@@ -80,7 +77,7 @@ auto make_error(ErrorCode c,
 #define CHASSIS_TRY_VALUE_IMPL(name, expr, counter)                            \
   auto CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter) = (expr);          \
   if (!CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter))                   \
-    return Unexpected(                                                         \
+    return chassis::error::Unexpected(                                         \
         CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter).error());         \
   auto name =                                                                  \
       std::move(CHASSIS_DETAIL_CONCAT(_chassis_try_result_, counter)).value()

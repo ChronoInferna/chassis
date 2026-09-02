@@ -10,8 +10,9 @@
 
 namespace chassis::manifest {
 
-// Helper functions
 namespace {
+
+constexpr auto kManifestName = "Chassis.toml";
 
 auto toml_to_text_file(const toml::table &table) -> fs::TextFile {
   std::ostringstream oss{};
@@ -70,15 +71,12 @@ auto create(std::string_view package_name) -> Manifest {
 
 auto write_manifest(const fs::Path &path, const Manifest &manifest)
     -> Result<void> {
-  // TODO validate path as manifest path (i.e. check if it ends with
-  // Chassis.toml), if so do it via typing system
+  CHASSIS_TRY(validate_manifest(manifest));
 
   toml::table table{};
 
-  table.emplace("project", toml::table{
-                               {"name", manifest.package.name},
-                               {"version", manifest.package.version},
-                           });
+  table.emplace("project", toml::table{{"name", manifest.package.name},
+                                       {"version", manifest.package.version}});
 
   for (const auto &dep : manifest.dependencies) {
     table["dependencies"].as_table()->insert(
@@ -94,14 +92,46 @@ auto write_manifest(const fs::Path &path, const Manifest &manifest)
 auto read_manifest(const fs::Path &path) -> Result<Manifest> {
   CHASSIS_TRY_VALUE(text_file, fs::read_text_file(path));
 
-  toml::table table = toml::parse(text_file.text());
+  toml::table table{};
+  try {
+    table = toml::parse(text_file.text());
+  } catch (const toml::parse_error &) {
+    return make_error(ErrorCode::ParseError);
+  }
 
-  CHASSIS_TRY(manifest::validate(path));
+  auto manifest = toml_to_manifest(table);
+  CHASSIS_TRY(validate_manifest(manifest));
 
-  return toml_to_manifest(table);
+  return manifest;
 }
 
-// TODO
-auto validate(const fs::Path &path) -> Result<void> { return {}; }
+auto validate(const fs::Path &path) -> Result<void> {
+  if (path.filename() != kManifestName) {
+    return make_error(ErrorCode::InvalidManifest);
+  }
+
+  if (!fs::exists(path)) {
+    return make_error(ErrorCode::MissingFile);
+  }
+
+  CHASSIS_TRY_VALUE(manifest, read_manifest(path));
+  CHASSIS_TRY(validate_manifest(manifest));
+
+  return {};
+}
+
+auto validate_manifest(const Manifest &manifest) -> Result<void> {
+  if (manifest.package.name.empty() || manifest.package.version.empty()) {
+    return make_error(ErrorCode::InvalidManifest);
+  }
+
+  for (const auto &dependency : manifest.dependencies) {
+    if (dependency.name.empty() || dependency.version.empty()) {
+      return make_error(ErrorCode::InvalidManifest);
+    }
+  }
+
+  return {};
+}
 
 } // namespace chassis::manifest

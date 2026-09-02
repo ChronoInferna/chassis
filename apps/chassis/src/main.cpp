@@ -9,9 +9,7 @@ int main(int argc, char **argv) {
 
   spdlog::set_pattern("[%^%l%$] %v");
 
-  add_init_command(app);
-  // add_new_command(app); TODO
-  add_build_command(app);
+  register_all_commands(app);
 
   CLI11_PARSE(app, argc, argv);
   return 0;

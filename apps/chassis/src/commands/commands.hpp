@@ -1,3 +1,3 @@
-#include "build.hpp"
-#include "init.hpp"
-#include "new.hpp"
+#pragma once
+
+#include "command.hpp"
