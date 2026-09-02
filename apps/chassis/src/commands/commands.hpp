@@ -1,3 +1,5 @@
 #pragma once
 
-#include "command.hpp"
+#include "build.hpp"
+#include "init.hpp"
+#include "new.hpp"
