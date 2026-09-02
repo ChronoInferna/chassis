@@ -22,6 +22,7 @@ set_target_properties(chassis_cli
 target_sources(chassis_cli
     PRIVATE
         src/main.cpp
+        src/commands/result.cpp
         src/commands/init.cpp
         src/commands/new.cpp
         src/commands/build.cpp
@@ -29,10 +30,7 @@ target_sources(chassis_cli
 
 target_link_libraries(chassis_cli
     PRIVATE
-        chassis::core
-        chassis::filesystem
-        chassis::manifest
-        chassis::process
+        chassis::application
         CLI11::CLI11
         spdlog::spdlog
 )

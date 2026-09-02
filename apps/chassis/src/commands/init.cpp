@@ -1,9 +1,10 @@
 #include "init.hpp"
 
-#include <chassis/filesystem/path.hpp>
-#include <chassis/manifest/manifest.hpp>
+#include "result.hpp"
+
+#include <chassis/application/use_cases.hpp>
+
 #include <memory>
-#include <spdlog/spdlog.h>
 
 auto add_init_command(CLI::App &app) -> void {
   auto options = std::make_shared<InitOptions>();
@@ -16,25 +17,5 @@ auto add_init_command(CLI::App &app) -> void {
 }
 
 auto run_init_command(const InitOptions &options) -> void {
-  auto parent_path = options.path;
-  auto manifest_path = parent_path / "Chassis.toml";
-
-  if (chassis::fs::exists(manifest_path)) {
-    spdlog::error("Manifest file already exists at: {}",
-                  manifest_path.string());
-    return;
-  }
-
-  auto manifest = chassis::manifest::create(parent_path.filename().native());
-  auto res = chassis::manifest::write_manifest(manifest_path, manifest);
-
-  if (!res) {
-    spdlog::error("Failed to create manifest file: {} at {}:{}",
-                  res.error().message(), res.error().location().file_name(),
-                  res.error().location().line());
-    return;
-  }
-
-  spdlog::info("Project successfully initialized at: {}",
-               manifest_path.string());
+  render_command_result(chassis::application::init_project(options.path));
 }
